@@ -30,10 +30,10 @@ void testInsert()
     {
         int qtBefore = sequence->getQuantity();
         string inserted = str.append(to_string(i));
-        
+                
         sequence->insert(i, new Node(inserted));
         
-        for(int j = 1; j <= i; j++)
+        for(int j = 1; j < i; j++)
         {
             assert( sequence->get(j)->getValue() != inserted );
         }
@@ -45,7 +45,7 @@ void testInsert()
         assert( sequence->get(i)->getValue() == inserted );
     }
     
-    delete sequence;
+    //delete sequence;
     
     cout << "TestInsert OK" << endl;
 }
@@ -143,7 +143,7 @@ void testAll()
     
     delete sequence;
     
-    cout << "Test OK" << endl;
+    cout << "TestAll OK" << endl;
 }
 
 void testInsertBegin()
@@ -281,7 +281,7 @@ void testRemoveEnd()
     
     delete sequence;
     
-    cout << "TestInsertBegin OK" << endl;
+    cout << "TestRemoveEnd OK" << endl;
 }
 
 int main(int argc, const char * argv[]) {

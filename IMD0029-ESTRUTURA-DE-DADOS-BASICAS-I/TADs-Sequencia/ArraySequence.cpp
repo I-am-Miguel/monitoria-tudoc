@@ -14,10 +14,10 @@ unsigned int end;
 
 Sequence::Sequence()
 {
-    content = new Node*[SIZE];
-    this->quantity = 0;
-    init = 0;
-    end = SIZE-1;
+    content         = new Node*[SIZE];
+    this->quantity  = 0;
+    init            = 0;
+    end             = 0;
 }
 
 Sequence::~Sequence()
@@ -31,7 +31,7 @@ Sequence::~Sequence()
  */
 Node* Sequence::get(int i)
 {
-    return content[i];
+    return content[i-1];
 }
 
 /**
@@ -40,7 +40,15 @@ Node* Sequence::get(int i)
  */
 void Sequence::insert(int i, Node* element)
 {
-    // TO - DO
+    //Movendo os elementos para a ultima posição, permitindo a inserção na posição I
+    for(int posicao = end; posicao > i-1; posicao--)
+    {
+        content[posicao] = content[posicao-1];
+    }
+
+    content[i-1] = element;
+    end++;
+    this->quantity++;   
 }
 
 /**
@@ -49,7 +57,7 @@ void Sequence::insert(int i, Node* element)
  */
 void Sequence::insertBegin(Node* element)
 {
-    
+    this->insert(1,element);
 }
 
 /**
@@ -58,7 +66,7 @@ void Sequence::insertBegin(Node* element)
  */
 void Sequence::insertEnd(Node* element)
 {
-    // TO - DO
+    this->insert(end+1,element);
 }
 
 /**
@@ -67,8 +75,18 @@ void Sequence::insertEnd(Node* element)
  */
 Node* Sequence::remove(int i)
 {
-    // TO - DO
-    return nullptr;
+    std::string valorRemovido = content[i-1]->getValue();
+    Node* nodeCopia = new Node(valorRemovido); 
+
+    for(int unsigned posicao = i-1; posicao < end; posicao++)
+    {
+        content[posicao] = content[posicao+1];
+    }
+
+    this->quantity--; 
+    end--;
+
+    return nodeCopia;
 }
 
 /**
@@ -77,8 +95,7 @@ Node* Sequence::remove(int i)
  */
 Node* Sequence::removeBegin()
 {
-    // TO - DO
-    return nullptr;
+    return remove(1);
 }
 
 /**
@@ -87,8 +104,7 @@ Node* Sequence::removeBegin()
  */
 Node* Sequence::removeEnd()
 {
-    // TO - DO
-    return nullptr;
+    return remove(end);
 }
 
 bool Sequence::isEmpty()
