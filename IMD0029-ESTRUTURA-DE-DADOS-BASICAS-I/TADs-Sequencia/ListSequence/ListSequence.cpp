@@ -17,11 +17,11 @@ Sequence::Sequence()
 
 Sequence::~Sequence()
 {
-    Node* curr = first;
-    while(curr!=NULL)
+    Node* atual = first;
+    while(atual!=NULL)
     {
-        Node* aux = curr;
-        curr = curr->getNext();
+        Node* aux = atual;
+        atual = atual->getNext();
         delete aux;
     }
 }
@@ -31,16 +31,16 @@ Sequence::~Sequence()
  */
 std::string Sequence::get(int i)
 {
-    Node* curr = first;
+    Node* atual = first;
     int counter = 1;
     
-    while( curr!= NULL && counter < i )
+    while( atual!= NULL && counter < i )
     {
-        curr = curr->getNext();
+        atual = atual->getNext();
         counter++;
     }
     
-    return curr->getValue();
+    return atual->getValue();
 }
 
 /**
@@ -49,7 +49,23 @@ std::string Sequence::get(int i)
  */
 void Sequence::insert(int i, std::string element)
 {
-   // TO DO
+   if(first == NULL){
+       insertBegin(element);       
+   }else{
+        Node* node = new Node(element);
+        Node* atual = first;        
+        for(int posicao = 0; posicao < i; posicao++)
+        {
+            if(atual->getNext()!= NULL)
+            {                
+                atual = atual->getNext();
+            }
+               
+        }
+        node->setNext(atual->getNext());
+        atual->setNext(node);
+        this->quantity++;        
+   }
 }
 
 /**
@@ -74,19 +90,19 @@ void Sequence::insertBegin(std::string element)
  */
 void Sequence::insertEnd(std::string element)
 {
-   Node* node = new Node(element);
+    Node* node = new Node(element);
     if(first == NULL)
     {
         first = node;
     }else
     {
-        Node* curr = first;
-        while(curr->getNext()!=NULL)
+        Node* atual = first;
+        while(atual->getNext()!=NULL)
         {
-            curr = curr->getNext();
+            atual = atual->getNext();
         }
-        node->setNext(curr->getNext());
-        curr->setNext(node);
+        node->setNext(atual->getNext());
+        atual->setNext(node);
     }
     this->quantity++;
 
@@ -97,9 +113,26 @@ void Sequence::insertEnd(std::string element)
  Returns the removed element.
  */
 std::string Sequence::remove(int i)
-{
-    // TO - DO
-    return NULL;
+{    
+    if(i == 1)
+    {
+        return removeBegin();
+    }
+    
+    Node* remover = first;
+    Node* anterior = NULL;
+    while(remover->getNext()!=NULL && i > 0)
+    {
+        anterior = remover;
+        remover = remover->getNext();
+        i--;
+    }
+    std::string valorRemovido = remover->getValue();
+    anterior->setNext(remover->getNext());
+    delete remover;
+    
+    this->quantity--;
+    return valorRemovido;
 }
 
 /**
@@ -121,22 +154,7 @@ std::string Sequence::removeBegin()
  */
 std::string Sequence::removeEnd()
 {
-    Node* remover = first;
-    Node* anterior = first;
-     while(remover->getNext()!=NULL)
-    {
-        anterior = remover;
-        remover = remover->getNext();
-    }
-    if(anterior == NULL){
-       return removeBegin();
-    }
-    std::string valorRemovido = remover->getValue();
-    anterior->setNext(remover->getNext());
-    delete remover;
-    
-    this->quantity--;
-    return valorRemovido;
+    return remove(this->quantity);
 
 }
 

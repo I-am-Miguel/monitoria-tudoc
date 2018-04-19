@@ -33,7 +33,7 @@ void testInsert()
         
         sequence->insert(i, inserted);
         
-        for(int j = 1; j <= i; j++)
+        for(int j = 1; j < i; j++)
         {
             assert( sequence->get(j) != inserted );
         }
@@ -143,7 +143,7 @@ void testAll()
     
     delete sequence;
     
-    cout << "Test OK" << endl;
+    cout << "TestAll OK" << endl;
 }
 
 void testInsertBegin()
